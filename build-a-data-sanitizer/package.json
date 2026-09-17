@@ -1,0 +1,16 @@
+{
+  "name": "build-a-data-sanitizer",
+  "version": "1.0.0",
+  "description": "data sanitizer",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "main": "middleware.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "commonjs"
+}
