@@ -1,28 +1,17 @@
-const express = require('express');
-const router = express.Router();
+const projects = require('../data/projects');
 
-const projects = [];
-
-router.get('/projects', (req, res) => {
+const getProjects = (req, res) => {
     res.json(projects);
-});
+};
 
-router.post('/projects', (req, res) => {
+const createProject = (req, res) => {
     const { name, description, status } = req.body;
-
-    if( !name || !description || !status) {
-        return res
-        .status(400)
-        .json({ 
-            error: 'Name, description and status are required.' 
-        });
-    }
 
     const newProject = {
         id: projects.length + 1,
-        name: name,
-        description: description,
-        status: status,
+        name,
+        description,
+        status,
         createdAt: new Date()
     }
 
@@ -34,11 +23,10 @@ router.post('/projects', (req, res) => {
         message: 'Project created',
         project: newProject
     });
-});
+}
 
-router.patch('/projects/:id', (req, res) => {
+const patchProject = (req, res) => {
     const id = Number(req.params.id);
-    const { name, description, status } = req.body;
 
     const project = projects.find(project => project.id === id);
 
@@ -46,27 +34,17 @@ router.patch('/projects/:id', (req, res) => {
         return res.status(404).json({ 'error': 'Project not found' })
     }
 
-    if(name !== undefined){
-        if(name.trim() === "") {
-            return res.status(400).json({ error: 'name cannot be empty' });
-        }
+    const { name, description, status } = req.body;
 
+    if(name !== undefined) {
         project.name = name;
     }
 
-    if(description !== undefined){
-        if(description.trim() === "") {
-            return res.status(400).json({ error: 'description cannot be empty' });
-        }
-
+    if(description !== undefined) {
         project.description = description;
     }
 
-    if(status !== undefined){
-        if(status.trim() === "") {
-            return res.status(400).json({ error: 'status cannot be empty' });
-        }
-
+    if(status !== undefined) {
         project.status = status;
     }
 
@@ -74,9 +52,9 @@ router.patch('/projects/:id', (req, res) => {
         message: 'Project updated successfully',
         data: project
     })
-});
+}
 
-router.get('/projects/:id', (req, res) => {
+const getProject = (req, res) => {
     const id = Number(req.params.id);
     
     const project = projects.find(project => project.id === id);
@@ -86,9 +64,9 @@ router.get('/projects/:id', (req, res) => {
     }
 
     res.status(200).json(project)
-});
+}
 
-router.delete('/projects/:id', (req, res) => {
+const deleteProject = (req, res) => {
     const id = Number(req.params.id);
 
     const index = projects.findIndex(project => project.id === id);
@@ -103,6 +81,12 @@ router.delete('/projects/:id', (req, res) => {
         message: 'Project deleted successfully',
         data: deletedProject
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+    getProjects, 
+    createProject, 
+    patchProject,
+    getProject,
+    deleteProject
+}

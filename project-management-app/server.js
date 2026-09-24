@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 
 // importing the api routers;
-const apiRoutes = require('./routes/apiRoutes');
+const apiRoutes = require('./routes/projects.routes');
 
 app.use(express.json());
 
