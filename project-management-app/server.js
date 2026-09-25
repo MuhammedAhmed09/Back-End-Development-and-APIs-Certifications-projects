@@ -3,11 +3,14 @@ const app = express();
 const PORT = 3000;
 
 // importing the api routers;
-const apiRoutes = require('./routes/projects.routes');
+const projectRoutes = require('./routes/projects.routes');
+const errorHandler = require('./middleware/errorHandler');
 
 app.use(express.json());
 
-app.use('/api', apiRoutes);
+app.use('/api', projectRoutes);
+
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
